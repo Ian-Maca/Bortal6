@@ -2,14 +2,13 @@
 
 
 #include "BortalGameMode.h"
-
 #include "Bortal6Character.h"
 #include "Bortal6PlayerController.h"
 
 ABortalGameMode::ABortalGameMode()
-	: Super(), GravLaserEnergy(0), PushLaserEnergy(0), PopLaserEnergy(0), PullLaserEnergy(0)
-	, bIsHoldingLaser(false), SpawnLocation(0), _MatLerp(0.f), _GravMatLerp(0.f)
-	, _PopMatLerp(0.f), _PullMatLerp(0.f)
+	: Super(), _MatLerp(0.f), _GravMatLerp(0.f), _PopMatLerp(0.f), _PullMatLerp(0.f)
+	, SpawnLocation(0), GravLaserEnergy(0), PushLaserEnergy(0), PopLaserEnergy(0)
+	, PullLaserEnergy(0), bIsHoldingLaser(false)
 {
 	// set default pawn class to our Blueprinted character
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnClassFinder(
@@ -74,7 +73,6 @@ void ABortalGameMode::RoundH(int32& num)
  *    will return the new changed energy amount  */
 int32 ABortalGameMode::GiveLaserAmmo(FString ammoType, uint8 ammo)
 {
-	
 	int32 returnEnergy = 0;
 	
 	if (ammoType == "Push")

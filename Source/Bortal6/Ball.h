@@ -8,7 +8,9 @@
 #define GREEN FVector(0, 1, 0)
 #define PINK FVector(1, 0.1, 0.4)
 
+#include "LaserGun.h"
 #include "CoreMinimal.h"
+#include "EngineUtils.h"
 #include "GameFramework/Actor.h"
 #include "Ball.generated.h"
 
@@ -22,6 +24,7 @@ private:
 	TArray<FVector> PullDirections;
 	
 	FVector CurrentDirection;
+	FVector RopeAttachPoint;
 	
 	float IMP_MOD = 680.f;
 	bool _slowed;
@@ -29,6 +32,8 @@ private:
 	
 	UStaticMeshComponent* Mesh;
 	UStaticMesh* SegMesh;
+	ALaserGun* GunRef;
+	UObject* NuzzleRef;
 	
 	FTimerHandle ImpulseTimerHandle;
 	size_t _currentImpulseIndex = 0;
@@ -50,5 +55,5 @@ public:
 	void BallInit(UStaticMeshComponent* _BallMesh); 
 	
 	UFUNCTION(BlueprintCallable, Category = "Balls")
-	void Shot(const ELaserType LaserType, FVector Direction, UStaticMeshComponent* _Mesh);
+	void Shot(const ELaserType LaserType, const FVector Direction, UStaticMeshComponent* _Mesh);
 };  

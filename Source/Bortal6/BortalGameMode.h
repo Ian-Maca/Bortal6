@@ -6,8 +6,6 @@
 #include "GameFramework/GameModeBase.h"
 //#include "CableComponent.h"
 #include "BortalGameMode.generated.h"
-
-
 /**
  * 
  */
@@ -37,8 +35,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Jelqers")
 	float PullMatLerpIncrement(float inc);
 
-
-	// # Init !
+	// # Initializes internal spawn location using PlayerController's spawn location!
 	UFUNCTION(BlueprintCallable, Category = "Jelqers")
 	void BortalInit(ABortal6PlayerController* PlayerController);
 
