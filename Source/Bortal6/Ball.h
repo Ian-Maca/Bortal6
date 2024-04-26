@@ -29,11 +29,20 @@ private:
 	float IMP_MOD = 680.f;
 	bool _slowed;
 	int _pushCount, _popCount, _pullCount;
+
+	UPROPERTY()
+	AActor* AttachPoint;
 	
+	UPROPERTY()
 	UStaticMeshComponent* Mesh;
+	
+	UPROPERTY()
 	UStaticMesh* SegMesh;
+	
+	UPROPERTY()
 	ALaserGun* GunRef;
-	UObject* NuzzleRef;
+	
+	FVector GunMuzzleLocation;
 	
 	FTimerHandle ImpulseTimerHandle;
 	size_t _currentImpulseIndex = 0;
@@ -52,7 +61,7 @@ public:
 	ABall();
 
 	UFUNCTION(BlueprintCallable, Category = "Balls")
-	void BallInit(UStaticMeshComponent* _BallMesh); 
+	void BallInit(UStaticMeshComponent* _BallMesh, AActor* _AttachPoint);
 	
 	UFUNCTION(BlueprintCallable, Category = "Balls")
 	void Shot(const ELaserType LaserType, const FVector Direction, UStaticMeshComponent* _Mesh);

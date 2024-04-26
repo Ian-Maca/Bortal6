@@ -9,8 +9,7 @@
 // Sets default values
 ABall::ABall()
 	: RopeAttachPoint(FVector::Zero()), _slowed(false), _pushCount(0),
-	  _popCount(0), _pullCount(0), Mesh(nullptr),
-	  GunRef(nullptr), NuzzleRef(nullptr)
+	  _popCount(0), _pullCount(0), AttachPoint(nullptr), Mesh(nullptr), GunRef(nullptr)
 {
 	UE_LOG(LogTemp, Warning, TEXT("ABall() Constructed!"))
 
@@ -26,18 +25,19 @@ ABall::ABall()
 	}
 }
 
-void ABall::BallInit(UStaticMeshComponent* _BallMesh)
+void ABall::BallInit(UStaticMeshComponent* _BallMesh, AActor* _AttachPoint)
 {
 	Mesh = _BallMesh;
+	AttachPoint = _AttachPoint;
 
-	if (UWorld* World = GetWorld())
+	if (const UWorld* World = GetWorld())
 	{
 		UE_LOG(LogTemp, Warning, TEXT("WORLD FOUND"))
 		for (TActorIterator<AActor> ActorItr(World); ActorItr; ++ActorItr)
 		{
 			if (ActorItr->GetClass()->IsChildOf(ALaserGun::StaticClass()))
 			{
-				GunRef = Cast<ALaserGun>(*ActorItr); //*ActorItr;
+				GunRef = Cast<ALaserGun>(*ActorItr);
 
 				FString result_text;
 				GunRef->GetName(result_text);
@@ -46,20 +46,9 @@ void ABall::BallInit(UStaticMeshComponent* _BallMesh)
 		}
 	}
 
-	/*
-	 * TODO: Figure out wtf to do with NuzzleRef, can't use WorldLoc (Maybe attach mechanism with rope?)
-	 */
+	
+	GunRef->AttachToActor(AttachPoint, FAttachmentTransformRules::SnapToTargetIncludingScale);
 
-	
-	UObject* obj = GunRef->GetDefaultSubobjectByName(TEXT("nuzzleMarker"));
-	if (obj)
-	{
-		NuzzleRef = obj;
-		UE_LOG(LogTemp, Warning, TEXT("NuzzleRef location: %f"), NuzzleRef.World)
-	}
-	
-	//Mesh->AttachToComponent()
-	
 }
 
 void ABall::Shot(const ELaserType LaserType, const FVector Direction, UStaticMeshComponent* _Mesh)
@@ -157,6 +146,8 @@ auto ABall::Pull(UStaticMeshComponent* _Mesh, const FVector& Direction) -> void
 void ABall::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	
+	GunMuzzleLocation = GunRef->GetActorLocation();
 }
 
 auto ABall::HandleUnslow() -> void
