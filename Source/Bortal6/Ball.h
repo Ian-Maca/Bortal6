@@ -24,14 +24,13 @@ private:
 	TArray<FVector> PullDirections;
 	
 	FVector CurrentDirection;
-	FVector RopeAttachPoint;
 	
 	float IMP_MOD = 680.f;
 	bool _slowed;
 	int _pushCount, _popCount, _pullCount;
 
 	UPROPERTY()
-	AActor* AttachPoint;
+	UStaticMeshComponent* RopeStart;
 	
 	UPROPERTY()
 	UStaticMeshComponent* Mesh;
@@ -61,7 +60,7 @@ public:
 	ABall();
 
 	UFUNCTION(BlueprintCallable, Category = "Balls")
-	void BallInit(UStaticMeshComponent* _BallMesh, AActor* _AttachPoint);
+	void BallInit(UStaticMeshComponent* _BallMesh, UStaticMeshComponent* _RopeStart);
 	
 	UFUNCTION(BlueprintCallable, Category = "Balls")
 	void Shot(const ELaserType LaserType, const FVector Direction, UStaticMeshComponent* _Mesh);

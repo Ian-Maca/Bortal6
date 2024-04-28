@@ -8,8 +8,8 @@
 
 // Sets default values
 ABall::ABall()
-	: RopeAttachPoint(FVector::Zero()), _slowed(false), _pushCount(0),
-	  _popCount(0), _pullCount(0), AttachPoint(nullptr), Mesh(nullptr), GunRef(nullptr)
+	: _slowed(false), _pushCount(0),
+	  _popCount(0), _pullCount(0), RopeStart(nullptr), Mesh(nullptr), GunRef(nullptr)
 {
 	UE_LOG(LogTemp, Warning, TEXT("ABall() Constructed!"))
 
@@ -25,12 +25,12 @@ ABall::ABall()
 	}
 }
 
-void ABall::BallInit(UStaticMeshComponent* _BallMesh, AActor* _AttachPoint)
+void ABall::BallInit(UStaticMeshComponent* _BallMesh, UStaticMeshComponent* _RopeStart)
 {
 	Mesh = _BallMesh;
-	AttachPoint = _AttachPoint;
+	RopeStart = _RopeStart;
 
-	if (const UWorld* World = GetWorld())
+	/*if (const UWorld* World = GetWorld())
 	{
 		UE_LOG(LogTemp, Warning, TEXT("WORLD FOUND"))
 		for (TActorIterator<AActor> ActorItr(World); ActorItr; ++ActorItr)
@@ -44,10 +44,9 @@ void ABall::BallInit(UStaticMeshComponent* _BallMesh, AActor* _AttachPoint)
 				UE_LOG(LogTemp, Warning, TEXT("ACTOR FOUND ----- %s"), *result_text)
 			}
 		}
-	}
-
+	}*/
 	
-	GunRef->AttachToActor(AttachPoint, FAttachmentTransformRules::SnapToTargetIncludingScale);
+	
 
 }
 
