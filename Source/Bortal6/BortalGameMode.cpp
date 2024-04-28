@@ -4,6 +4,7 @@
 #include "BortalGameMode.h"
 #include "Bortal6Character.h"
 #include "Bortal6PlayerController.h"
+#include "LaserTypes.h"
 
 ABortalGameMode::ABortalGameMode()
 	: Super(), _MatLerp(0.f), _GravMatLerp(0.f), _PopMatLerp(0.f), _PullMatLerp(0.f)
@@ -62,10 +63,7 @@ void ABortalGameMode::RespawnPlayer(ABortal6Character* Character, ABortal6Player
 
 void ABortalGameMode::RoundH(int32& num)
 {
-	if (num > 100)
-	{
-		num = 100;
-	}
+	if (num > 100) { num = 100; }
 }
 
 
@@ -73,9 +71,28 @@ void ABortalGameMode::RoundH(int32& num)
  *    will return the new changed energy amount  */
 int32 ABortalGameMode::GiveLaserAmmo(FString ammoType, uint8 ammo)
 {
-	int32 returnEnergy = 0;
+	switch (ammoType)
+	{
+	case ELaserType::Push:
+		PushLaserEnergy += ammo;
+		RoundH(PushLaserEnergy);
+		return PushLaserEnergy;
+	case ELaserType::Pop:
+		PopLaserEnergy += ammo;
+		RoundH(PopLaserEnergy);
+		return PopLaserEnergy;
+	case ELaserType::Slow:
+		GravLaserEnergy += ammo;
+		RoundH(GravLaserEnergy);
+		return GravLaserEnergy;
+	case ELaserType::Pull:
+		PullLaserEnergy += ammo;
+		RoundH(PullLaserEnergy);
+		return PullLaserEnergy;
+	case default: return -1;
+	}
 	
-	if (ammoType == "Push")
+	/*if (ammoType == "Push")
 	{
 		PushLaserEnergy += ammo;
 		RoundH(PushLaserEnergy);
@@ -98,9 +115,9 @@ int32 ABortalGameMode::GiveLaserAmmo(FString ammoType, uint8 ammo)
 		PullLaserEnergy += ammo;
 		RoundH(PullLaserEnergy);
 		return returnEnergy = PullLaserEnergy;
-	}
+	}*/
 
-	return returnEnergy;
+
 }
 
 

@@ -158,12 +158,12 @@ auto ABall::HandleUnslow() -> void
 		Pop(Mesh, 1000.f);
 	}
 
-	for (const auto& Dir : PullDirections)
+	for (const FVector& Dir : PullDirections)
 	{
 		Pull(Mesh, Dir);
 	}
 
-	for (const auto& Dir : PushDirections)
+	for (const FVector& Dir : PushDirections)
 	{
 		Push(Mesh, Dir);
 	}
